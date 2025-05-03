@@ -28,6 +28,7 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
@@ -35,7 +36,10 @@ ScaffoldingReadMe.txt
 *.nupkg
 # NuGet Symbol Packages
 *.snupkg
+
+
 .vs/
+wwwroot/Hinh/
 # Others
 ~$*
 *~

@@ -1,12 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FruitEshop.Data;
+using FruitEshop.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FruitEshop.Controllers
 {
     public class HangHoaController : Controller
     {
-        public IActionResult Index(int? id)
+        private readonly FruitEshopContext DB;
+        public HangHoaController(FruitEshopContext context) 
         {
-            return View();
+        DB = context;
+        }
+        public IActionResult Index(int? loai)
+        {
+            var hangHoas = DB.HangHoas.AsQueryable();
+
+            if (loai.HasValue)
+            {
+                hangHoas = hangHoas.Where(p => p.MaLoai == loai.Value);
+            }
+
+            var result = hangHoas.Select(p => new GoodViewModel
+            {
+                MaHh = p.MaHh,
+                TenHH = p.TenHh,
+                DonGia = p.DonGia ?? 0,
+                Hinh = p.Hinh ?? "",
+                MoTaNgan = p.MoTaDonVi ?? "",
+                TenLoai = p.MaLoaiNavigation.TenLoai
+            });
+            return View(result);
+        }
+        public IActionResult Search(string? query)
+        {
+            var hangHoas = DB.HangHoas.AsQueryable();
+
+            if (query != null)
+            {
+                hangHoas = hangHoas.Where(p => p.TenHh.Contains(query));
+            }
+
+            var result = hangHoas.Select(p => new GoodViewModel
+            {
+                MaHh = p.MaHh,
+                TenHH = p.TenHh,
+                DonGia = p.DonGia ?? 0,
+                Hinh = p.Hinh ?? "",
+                MoTaNgan = p.MoTaDonVi ?? "",
+                TenLoai = p.MaLoaiNavigation.TenLoai
+            });
+            return View(result);
         }
     }
 }
