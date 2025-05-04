@@ -52,5 +52,17 @@ namespace FruitEshop.Controllers
             });
             return View(result);
         }
+        public IActionResult Detail(int id)
+        {
+            var data = DB.HangHoas
+                .Include(p => p.MaLoaiNavigation)
+                .SingleOrDefault(p => p.MaHh == id);
+            if (data == null)
+            {
+                TempData["error"] = "Không tìm thấy sản phẩm này";
+                return Redirect("/404");
+            }
+            return View(data);
+        }
     }
 }

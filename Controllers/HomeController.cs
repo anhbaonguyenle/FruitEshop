@@ -22,7 +22,11 @@ namespace FruitEshop.Controllers
         {
             return View();
         }
-
+        [Route("/404")]
+        public IActionResult NotFound()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
