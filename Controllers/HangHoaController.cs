@@ -62,7 +62,21 @@ namespace FruitEshop.Controllers
                 TempData["error"] = "Không tìm thấy sản phẩm này";
                 return Redirect("/404");
             }
-            return View(data);
+            var result = new ProductDetailVM
+            {
+                MaHh = data.MaHh,
+                TenHH = data.TenHh,
+                DonGia = data.DonGia ?? 0,
+                Hinh = data.Hinh ?? "",
+                MoTaNgan = data.MoTaDonVi ?? "",
+                TenLoai = data.MaLoaiNavigation.TenLoai,
+                ChiTiet = data.MoTa ?? "",
+                DiemDanhGia = 5,
+                SoLuongTon = 10
+            };
+
+
+            return View(result);
         }
     }
 }
